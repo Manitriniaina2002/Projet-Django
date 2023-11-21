@@ -1,0 +1,204 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+  <div class="container-fluid py-4 px-5">
+    <div class="row">
+      <div class="col-12">
+        <div class="card border shadow-xs mb-4">
+          <div class="card-header border-bottom pb-0">
+            <div class="d-sm-flex align-items-center">
+              <div>
+                <h6 class="font-weight-semibold text-lg mb-0">Liste des formateurs</h6>
+                <p class="text-sm">Voir tout les informations sur les formateurs</p>
+              </div>
+              <div class="ms-auto d-flex">
+                <button type="button" class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2">
+                  <a href="{% url 'Ajout_Formateur' %}">
+                    <span class="btn-inner--icon text-white">
+                      <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
+                        <path d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z" />
+                      </svg>
+                    </span>
+                  </a>
+                  
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body px-0 py-0">
+            <div class="border-bottom py-3 px-3 d-sm-flex align-items-center">
+              <form action="" method="get" class="input-group w-sm-25 ms-auto">
+                <button class="input-group-text text-body">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
+                  </svg>
+                </button>
+                <input type="search" name="searchquery" class="form-control" placeholder="Taper ici !" id="Search">
+                <span class="input-group-text text-body ">
+                  <a href="{% url 'file_manager' %}"><i class = "fas fa-sync-alt"></i></a>
+                </span>
+              </form>
+            </div>
+            <div class="table-responsive p-0">
+              <table class="table table-bordered" id="myTable">
+                <thead class="bg-gray-100">
+                  <tr id="chk-th">
+                    <th class="text-center">ID</th>
+                    <th class="text-center">NOM</th>
+                    <th class="text-center">PRENOM</th>
+                    <th class="text-center">CONTACT</th>
+                    <th class="text-center">SPECIALITE</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody class="text-center">
+                  {% for data in page_obj %}
+                    <tr>
+                      <td>F|{{ data.id_formateur }}</td>
+                      <td>{{ data.nom }}</td>
+                      <td>{{ data.prenom }}</td>
+                      <td>{{ data.contact }}</td>
+                      <td>{{ data.specialite }}</td>
+                      <td class="d-flex align-items-center actions">
+                        <a class="btn btn-sm btn-dark fa-solid fa-pen-to-square" href="{% url 'Modif_Formateur' data.id_formateur %}"></a>
+                        <div class="dot-separator mx-2"></div>
+                    <a href="#" class="btn btn-sm btn-danger fa-solid fa-trash delete-button" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-delete-url="{% url 'Supp_Formateur' data.id_formateur %}"></a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+            </table>
+
+            <!-- Modal -->
+            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                   Voullez-vous vraiment supprimer ?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <form id="deleteForm" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger">Supprimer</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Modal fin -->
+            <script>
+              $(document).ready(function(){
+                // ...
+              
+                $('#confirmDeleteModal').on('show.bs.modal', function(event) {
+                  var button = $(event.relatedTarget); // Button that triggered the modal
+                  var deleteUrl = button.data('delete-url'); // Extract URL from data-* attributes
+              
+                  // Update the form's action
+                  $('#deleteForm').attr('action', deleteUrl);
+                });
+              });
+            </script>
+              </div>
+              <div class="border-top py-3 px-3 d-flex align-items-center">
+                <p class="font-weight-semibold mb-0 text-dark text-sm">Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}</p>
+                <div class="ms-auto">
+                  {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-sm btn-white mb-0">Precedent</a>
+                  {% else %}
+                    <button class="btn btn-sm btn-white mb-0" disabled>Precedent</button>
+                  {% endif %}
+                  {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-sm btn-white mb-0">Suivant</a>
+                  {% else %}
+                    <button class="btn btn-sm btn-white mb-0" disabled>Suivant</button>
+                  {% endif %}
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <script>
+      $(document).ready(function(){
+        var urlBase = "{% url 'Modif_Formateur' 0 %}";
+        urlBase = urlBase.slice(0, -2);  // Enlever le "0/" à la fin
+        var currentPage = 1;
+      
+        $('#Search').on('input', function(){
+          currentPage = 1;  // Réinitialiser la page à 1 lors d'une nouvelle recherche
+          search();
+        });
+      
+        $('#PreviousPage').on('click', function(){
+          currentPage--;
+          search();
+        });
+      
+        $('#NextPage').on('click', function(){
+          currentPage++;
+          search();
+        });
+      
+        function search() {
+          $.ajax({
+            url: "{% url 'search_formateur' %}",
+            data: {
+              'q': $('#Search').val(),
+              'page': currentPage
+            },
+            dataType: 'json',
+            success: function(data){
+              // Vider le tableau
+              $("#myTable tbody").empty();
+      
+              // Ajouter les nouvelles formations au tableau
+              $.each(data.formateurs, function(index, formateur){
+                $("#myTable tbody").append(
+                  '<tr>' +
+                    '<td>' + formateur.id_formateur + '</td>' +
+                    '<td>' + formateur.nom + '</td>' +
+                    '<td>' + formateur.prenom + '</td>' +
+                    '<td>' + formateur.contact + '</td>' +
+                    '<td>' + formateur.specialite + '</td>' +
+                    '<td class="d-flex align-items-center actions">' +
+                      '<a class="btn btn-sm btn-dark fa-solid fa-pen-to-square" href="' + urlBase + formateur.id_formateur + '/"></a>' +
+                      '<div class="dot-separator mx-2"></div>' +
+                      '<a href="" class="btn btn-sm btn-danger fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#SuppFormation_' + formateur.id_formateur + '" ></a>' +
+                    '</td>' +
+                  '</tr>'
+                );
+              });
+      
+              // Mettre à jour les boutons de pagination
+              if (data.has_previous) {
+                $('#PreviousPage').prop('disabled', false);
+              } else {
+                $('#PreviousPage').prop('disabled', true);
+              }
+              if (data.has_next) {
+                $('#NextPage').prop('disabled', false);
+              } else {
+                $('#NextPage').prop('disabled', true);
+              }
+            }
+          });
+        }
+      });
+      </script>
+    
+    {% include 'includes/footer.html' %}
+  </div>
+
+{% endblock content %}
+
+

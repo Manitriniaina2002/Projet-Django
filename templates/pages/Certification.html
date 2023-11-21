@@ -1,0 +1,128 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+  <div class="container-fluid py-4 px-5">
+    <div class="row">
+      <div class="col-12">
+        <div class="card border shadow-xs mb-4">
+          <div class="card-header border-bottom pb-0">
+            <div class="d-sm-flex align-items-center">
+              <div>
+                <h6 class="font-weight-semibold text-lg mb-0">Certifie un etudiant </h6>
+                <p class="text-sm">Donner lui la preuve de ses effort !</p>
+              </div>
+              
+            </div>
+          </div>
+          <div class="card-body px-0 py-0">
+            <div class="border-bottom py-3 px-3 d-sm-flex align-items-center">
+              <form action="" method="get" class="input-group w-sm-25 ms-auto">
+                <button class="input-group-text text-body">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
+                  </svg>
+                </button>
+                <input type="search" name="searchquery" class="form-control" placeholder="Taper ici !" id="Search">
+                <span class="input-group-text text-body ">
+                  <a href="{% url 'Certification' %}"><i class = "fas fa-sync-alt"></i></a>
+                </span>
+              </form>
+            </div>
+            <div class="table-responsive p-0">
+              <table class="table table-bordered" id="myTable">
+                  <tr>
+                      <td></td>
+                      <td>
+                          <div class="border-bottom py-3 px-3 d-sm-flex align-items-center">
+                            <form action="" id="previewForm">
+                                     <label class="form-control h3" for="eleves">Choisir un etudiant : </label>
+                                    <td>
+                                          <div class="col-sm-15">
+                                            <select class="form-control mb-5" name="eleve">
+                                                {% for eleve in eleves %}
+                                                    <option value="{{ eleve.id_eleve }}">{{ eleve.nom }} {{ eleve.prenom }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    
+                                        <div class="form-group  text-right">
+                                            <button class="form-control mb-5 btn btn-primary" type="submit">Aperçu</button>
+                                        </div>
+                            </form>
+                                    </td>          
+                          </div>
+                      </td>
+                      <td></td>
+                  </tr>
+              </table>
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <script>
+    document.getElementById('previewForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Empêche la soumission du formulaire
+    
+      // Récupère les informations du formulaire
+      var eleveNom = document.querySelector('select[name="eleve"] option:checked').textContent;
+    
+      // Met à jour l'aperçu du certificat
+      document.getElementById('certificatePreview').innerHTML = `
+        Enregistre sous N° /_____/DRENETP/S.Exam du _______________________
+        CERTIFICAT DE FIN DE FORMATION
+        Le Directeur du Centre de Formation Professionnelle Moderne de Madagascar
+        Vu l’arrêter N°……………………………………… du ………………………. Portant Autorisation d’Ouverture d’un établissement de formation 
+        Professionnelle dénommé : « Centre de formation Professionnelle sis à la Rue Carnot Tanambao Morafeno Tuléar.
+        - Vu l’arrêtée N° ………………………………………… du ……………………………… portant agrément de filière
+        - Vu les procès-verbaux signés par les membres de jury d’examen en date du ……………………………
+        Certifie que l’impétrant a rempli les conditions réglementaires exigées et a subi avec succès les épreuves théoriques et pratiques en vue 
+        de l’obtention du CERTIFICAT DE FIN DE FORMATION
+        Spécialité : <br>
+        Mention : <br>
+        Délivré à : <br>
+        Née le :  à …………………………………………….
+        Fait à Antananarivo, le
+        L’impétrant(e) SYSTÈME Le Directeur du Centre
+      `;
+    
+      // Affiche le modal 
+      var myModal = new bootstrap.Modal(document.getElementById('previewModal'));
+      myModal.show();
+    });
+    </script>
+      <div class="modal" tabindex="-1" id="previewModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Aperçu du certificat</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p id="certificatePreview">Contenu de l'aperçu du certificat ici</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+              <button type="button" class="btn btn-primary" id="exportPdf">Exporter en PDF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <script>
+      document.getElementById('exportPdf').addEventListener('click', function() {
+        var doc = new jsPDF();
+        var text = document.getElementById('certificatePreview').textContent;
+        doc.text(text, 10, 10);
+        doc.save('Certificat.pdf');
+      });
+      </script>
+    
+    {% include 'includes/footer.html' %}
+  </div>
+
+{% endblock content %}
