@@ -1,0 +1,276 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-4 px-3 px-md-5">
+  <!-- Header Section -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+        <div class="mb-3 mb-md-0">
+          <h2 class="font-weight-bold text-dark mb-2">Gestion des Formateurs</h2>
+          <p class="text-muted text-sm">Gérez tous les formateurs du centre de formation</p>
+        </div>
+        <a href="{% url 'Ajout_Formateur' %}" class="btn btn-primary btn-sm">
+          <i class="fas fa-plus me-2"></i>Ajouter un Formateur
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card Container -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow-sm border-0">
+        <!-- Search Section -->
+        <div class="card-header bg-light border-bottom py-3">
+          <div class="row align-items-center">
+            <div class="col-12 col-md-8">
+              <div class="input-group">
+                <span class="input-group-text bg-white border-end-0">
+                  <i class="fas fa-search text-muted"></i>
+                </span>
+                <input type="search" id="Search" class="form-control border-start-0" placeholder="Rechercher par ID, nom, prénom...">
+                <a href="{% url 'Formateur' %}" class="input-group-text bg-white border-start-0 text-muted" style="cursor: pointer;">
+                  <i class="fas fa-sync-alt"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0" id="myTable">
+              <thead class="bg-light">
+                <tr>
+                  <th class="ps-4 py-3 fw-600 text-muted text-xs">ID</th>
+                  <th class="py-3 fw-600 text-muted text-xs">Nom</th>
+                  <th class="py-3 fw-600 text-muted text-xs">Prénom</th>
+                  <th class="py-3 fw-600 text-muted text-xs">Contact</th>
+                  <th class="py-3 fw-600 text-muted text-xs">Spécialité</th>
+                  <th class="py-3 fw-600 text-muted text-xs text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="border-top">
+                {% for data in page_obj %}
+                <tr class="align-middle">
+                  <td class="ps-4 py-3">
+                    <span class="badge bg-light text-dark">F|{{ data.id_formateur }}</span>
+                  </td>
+                  <td class="py-3">
+                    <span class="font-weight-600 text-dark">{{ data.nom }}</span>
+                  </td>
+                  <td class="py-3">{{ data.prenom }}</td>
+                  <td class="py-3">
+                    <span class="text-muted">{{ data.contact }}</span>
+                  </td>
+                  <td class="py-3">
+                    <span class="badge bg-info bg-opacity-10 text-info">{{ data.specialite }}</span>
+                  </td>
+                  <td class="py-3">
+                    <div class="btn-group" role="group">
+                      <a href="{% url 'Modif_Formateur' data.id_formateur %}" class="btn btn-sm btn-outline-primary" title="Modifier">
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      <button type="button" class="btn btn-sm btn-outline-danger delete-button" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-delete-url="{% url 'Supp_Formateur' data.id_formateur %}" title="Supprimer">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+            <!-- Empty State -->
+            {% if not page_obj %}
+            <div class="text-center py-5">
+              <i class="fas fa-inbox text-muted" style="font-size: 2rem;"></i>
+              <p class="text-muted mt-3">Aucun formateur trouvé</p>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="card-footer bg-light border-top py-3">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <p class="text-muted text-sm mb-3 mb-md-0">
+              Page <strong>{{ page_obj.number }}</strong> sur <strong>{{ page_obj.paginator.num_pages }}</strong>
+            </p>
+            <nav aria-label="Page navigation">
+              <ul class="pagination pagination-sm m-0">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                    <i class="fas fa-chevron-left"></i> Précédent
+                  </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                  <span class="page-link"><i class="fas fa-chevron-left"></i> Précédent</span>
+                </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                {% if num == page_obj.number %}
+                <li class="page-item active">
+                  <span class="page-link">{{ num }}</span>
+                </li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                    Suivant <i class="fas fa-chevron-right"></i>
+                  </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                  <span class="page-link">Suivant <i class="fas fa-chevron-right"></i></span>
+                </li>
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0">
+      <div class="modal-header bg-light border-bottom">
+        <h5 class="modal-title" id="confirmDeleteModalLabel">
+          <i class="fas fa-exclamation-triangle text-warning me-2"></i>Confirmation de suppression
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body py-4">
+        <p class="text-dark">Êtes-vous sûr de vouloir supprimer ce formateur?</p>
+        <p class="text-muted small">Cette action ne peut pas être annulée.</p>
+      </div>
+      <div class="modal-footer bg-light border-top">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <form id="deleteForm" method="post" class="d-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">
+            <i class="fas fa-trash me-2"></i>Supprimer
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('Search');
+  const table = document.getElementById('myTable');
+  let currentPage = 1;
+
+  // Search functionality
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      currentPage = 1;
+      performSearch();
+    });
+  }
+
+  // Delete modal functionality
+  const confirmDeleteModal = document.getElementById('confirmDeleteModal');
+  const deleteButtons = document.querySelectorAll('.delete-button');
+  
+  deleteButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const deleteUrl = this.getAttribute('data-delete-url');
+      const deleteForm = document.getElementById('deleteForm');
+      deleteForm.setAttribute('action', deleteUrl);
+    });
+  });
+
+  function performSearch() {
+    const query = searchInput.value;
+    
+    fetch(`{% url 'search_formateur' %}?q=${encodeURIComponent(query)}&page=${currentPage}`)
+      .then(response => response.json())
+      .then(data => {
+        updateTable(data);
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  function updateTable(data) {
+    const tbody = table.querySelector('tbody');
+    tbody.innerHTML = '';
+
+    if (data.formateurs.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="6" class="text-center py-5">
+            <i class="fas fa-inbox text-muted" style="font-size: 2rem;"></i>
+            <p class="text-muted mt-3">Aucun formateur trouvé</p>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    data.formateurs.forEach(formateur => {
+      const modifUrl = `{% url 'Modif_Formateur' 0 %}`.slice(0, -2) + formateur.id_formateur + '/';
+      const suppUrl = `{% url 'Supp_Formateur' 0 %}`.slice(0, -2) + formateur.id_formateur + '/';
+      
+      const row = `
+        <tr class="align-middle">
+          <td class="ps-4 py-3">
+            <span class="badge bg-light text-dark">F|${formateur.id_formateur}</span>
+          </td>
+          <td class="py-3">
+            <span class="font-weight-600 text-dark">${formateur.nom}</span>
+          </td>
+          <td class="py-3">${formateur.prenom}</td>
+          <td class="py-3">
+            <span class="text-muted">${formateur.contact}</span>
+          </td>
+          <td class="py-3">
+            <span class="badge bg-info bg-opacity-10 text-info">${formateur.specialite}</span>
+          </td>
+          <td class="py-3">
+            <div class="btn-group btn-group-sm" role="group">
+              <a href="${modifUrl}" class="btn btn-outline-primary" title="Modifier">
+                <i class="fas fa-edit"></i>
+              </a>
+              <button type="button" class="btn btn-outline-danger delete-button" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-delete-url="${suppUrl}" title="Supprimer">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+      tbody.innerHTML += row;
+    });
+
+    // Re-attach delete event listeners
+    document.querySelectorAll('.delete-button').forEach(button => {
+      button.addEventListener('click', function() {
+        const deleteUrl = this.getAttribute('data-delete-url');
+        const deleteForm = document.getElementById('deleteForm');
+        deleteForm.setAttribute('action', deleteUrl);
+      });
+    });
+  }
+});
+</script>
+
+{% include 'includes/footer.html' %}
+{% endblock %}

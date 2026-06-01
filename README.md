@@ -1,25 +1,30 @@
-# [Django File Manager](https://github.com/app-generator/sample-django-file-manager/)
+# [C.O.S.T.M - Formation Management System](https://github.com/Manitriniaina2002/Projet-Django/)
 
-Open-source **Django** project crafted on top of **[Corporate Dashboard](https://appseed.us/product/corporate-dashboard/django/)**, an open-source `Bootstrap 5` design from [Creative-Tim](https://www.creative-tim.com/product/corporate-ui-dashboard?AFFILIATE=128200).
-Designed for those who like bold elements and beautiful websites. Made of hundred of elements, designed blocks and fully coded pages, `Corporate Dashboard` is ready to help you create stunning websites and web apps.
+Open-source **Django** project for managing training courses, trainers, students, classrooms, and attendance tracking. Built on **[Corporate Dashboard](https://appseed.us/product/corporate-dashboard/django/)**, an open-source `Bootstrap 5` design from [Creative-Tim](https://www.creative-tim.com/product/corporate-ui-dashboard?AFFILIATE=128200).
 
-> 👉 `VIDEO Presentation`: [Django File Manager](https://www.youtube.com/watch?v=dBWGf-ZNUDI) (published on `YouTube`)
+C.O.S.T.M - **Centre d'Orientation du Système et Technologie Moderne** - A complete training management solution with modern responsive design, built with Django and Bootstrap 5.
+
+> 👉 **System**: C.O.S.T.M - Formation Management & Attendance Tracking
   
 <br />
 
 ### Features
 
-- ✅ Simple **File Manager** over the `MEDIA` folder
-  - Supports any Depth TREE
-  - Options: delete, preview, download, upload
-- ✅ `Up-to-date Dependencies`
-- ✅ Theme: [Django Admin Corporate](https://github.com/app-generator/django-admin-corporate), designed by [Creative-Tim](https://www.creative-tim.com/product/corporate-ui-dashboard?AFFILIATE=128200)
-  - `can be used in any Django project` (new or legacy)
-- ✅ **Authentication**: `Django.contrib.AUTH`, Registration
+- ✅ **Formation Management** - Create and manage training courses with modules
+  - Add formateurs (trainers) and manage their specialties
+  - Organize students (élèves) into groups
+  - Assign classrooms (salles) to formations
+  - Track attendance and participation
+- ✅ **Responsive Design** - Mobile-first Bootstrap 5 interface
+- ✅ Modern **Dashboard** with statistics and quick access
+- ✅ **Search & Pagination** - Quick search across all entities
+- ✅ **Authentication**: `Django.contrib.AUTH`, User registration
 
 <br /> 
 
-![Django File Manager - Open-Source Sample crafted by AppSeed.](https://github.com/app-generator/sample-django-file-manager/assets/51070104/0d40c31f-d109-4ed8-b4f5-6a9be585e5e6)
+## Formation Management System - Dashboard & Features
+
+The C.O.S.T.M system provides a complete solution for managing training programs with a modern, responsive interface.
 
 <br />
 
@@ -28,8 +33,8 @@ Designed for those who like bold elements and beautiful websites. Made of hundre
 > 👉 Download the code  
 
 ```bash
-$ git clone https://github.com/app-generator/sample-django-file-manager.git
-$ cd sample-django-file-manager
+$ git clone https://github.com/Manitriniaina2002/Projet-Django.git
+$ cd Projet-Django
 ```
 
 <br />
@@ -146,4 +151,4 @@ At this point, the product should be LIVE.
 <br />
 
 ---
-[Django File Manager ](https://github.com/app-generator/sample-django-file-manager/) - **Django** starter provided by **[AppSeed](https://appseed.us/)**
+[C.O.S.T.M - Formation Management System](https://github.com/Manitriniaina2002/Projet-Django/) - **Django** application for training management

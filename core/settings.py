@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "home",
     "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 MIDDLEWARE = [
@@ -92,12 +93,12 @@ WSGI_APPLICATION = "core.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 
-DB_ENGINE = os.getenv('DB_ENGINE', 'django.db.backends.mysql')
-DB_NAME = os.getenv('DB_NAME', 'costmdata')
-DB_USER = os.getenv('DB_USER', 'root')
+DB_ENGINE = os.getenv('DB_ENGINE', 'django.db.backends.sqlite3')
+DB_NAME = os.getenv('DB_NAME', os.path.join(BASE_DIR, 'db.sqlite3'))
+DB_USER = os.getenv('DB_USER', '')
 DB_PASSWORD = os.getenv('DB_PASSWORD', '')
-DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
-DB_PORT = os.getenv('DB_PORT', '3306')
+DB_HOST = os.getenv('DB_HOST', '')
+DB_PORT = os.getenv('DB_PORT', '')
 
 if DB_ENGINE == 'django.db.backends.mysql':
     DATABASES = {
@@ -156,7 +157,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-CRISPY_TEMPLATE_PACK= 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),

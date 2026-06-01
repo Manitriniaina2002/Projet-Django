@@ -2,13 +2,6 @@ from django.db import models
 
 # Create your models here.
 
-class FileInfo(models.Model):
-    path = models.URLField()
-    info = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.path
-    
 class Formateur(models.Model):
     id_formateur = models.AutoField(db_column='Id_Formateur', primary_key=True)  # Field name made lowercase.
     nom = models.CharField(db_column='Nom', max_length=50, blank=True, null=True)  # Field name made lowercase.
