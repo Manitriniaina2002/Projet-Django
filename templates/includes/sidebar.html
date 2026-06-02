@@ -1,241 +1,348 @@
 {% load i18n static admin_corporate %}
 
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 bg-gradient-dark fixed-start d-flex flex-column"
-       id="sidenav-main">
+<aside id="sidenav-main"
+       class="sidenav navbar navbar-vertical navbar-expand-xs border-0 fixed-start"
+       style="
+         width: 260px;
+         background: #0f1117;
+         display: flex;
+         flex-direction: column;
+         height: 100vh;
+         overflow: hidden;
+         box-shadow: 1px 0 0 rgba(255,255,255,0.06);
+         font-family: 'DM Sans', sans-serif;
+       ">
 
-    <!-- Logo -->
-    <div class="sidenav-header">
-        <i class="fas fa-times p-3 cursor-pointer text-white opacity-8 position-absolute end-0 top-0 d-none d-xl-none"
-           id="iconSidenav"></i>
-
-        <a class="navbar-brand d-flex align-items-center justify-content-center m-0" href="/">
-            <div class="d-flex align-items-center">
-                <img src="/static/img/Logo/Logo2.png"
-                     alt="C.O.S.T.M Logo"
-                     class="navbar-brand-img h-100"
-                     style="max-height:40px;">
-                <span class="font-weight-bold text-white ms-2 text-lg">
-                    C.O.S.T.M
-                </span>
-            </div>
-        </a>
+  <!-- ── HEADER ── -->
+  <div style="flex-shrink:0; padding: 20px 16px 16px; display:flex; align-items:center; gap:10px;">
+    <div style="width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,#6c63ff,#3ecfcf); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+      <img src="/static/img/Logo/Logo2.png" alt="C.O.S.T.M" style="width:22px; height:22px; object-fit:contain; filter:brightness(10);">
     </div>
-
-    <hr class="horizontal light mt-0 mb-2">
-
-    <!-- SCROLLABLE MENU -->
-    <div class="collapse navbar-collapse px-0 flex-grow-1 overflow-auto"
-         id="sidenav-collapse-main">
-
-        <ul class="navbar-nav">
-
-            <!-- DASHBOARD -->
-            <li class="nav-item">
-                {% if request.user.is_superuser %}
-                <a class="nav-link {% if request.resolver_match.url_name == 'admin:index' %}active{% endif %}"
-                   href="{% url 'admin:index' %}">
-                {% else %}
-                <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
-                   href="{% url 'dashboard' %}">
-                {% endif %}
-
-                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center">
-                        <i class="fa fa-home text-dark"></i>
-                    </div>
-
-                    <span class="nav-link-text ms-2">
-                        Tableau de bord
-                    </span>
-                </a>
-            </li>
-
-            <!-- SUPERUSER APPS -->
-            {% if request.user.is_superuser %}
-                {% admin_get_menu as app_list %}
-
-                {% if app_list %}
-                    {% for app in app_list %}
-                        {% if app.has_perms and not app.pinned %}
-
-                            <li class="nav-item mt-3">
-                                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6 text-white">
-                                    {{ app.label|slice:15 }}
-                                </h6>
-                            </li>
-
-                            {% for model in app.models %}
-                                {% if model.url %}
-                                <li class="nav-item">
-                                    <a class="nav-link text-white"
-                                       href="{{ model.url }}">
-                                        <span class="sidenav-mini-icon">
-                                            <i class="fa fa-circle text-xxs"></i>
-                                        </span>
-                                        <span class="sidenav-normal ms-2">
-                                            {{ model.label }}
-                                        </span>
-                                    </a>
-                                </li>
-                                {% endif %}
-                            {% endfor %}
-
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-            {% endif %}
-
-            <!-- GESTION -->
-            {% if request.user.is_authenticated %}
-
-            <hr class="horizontal light mt-4 mb-3">
-
-            <li class="nav-item">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6 text-white">
-                    Gestion
-                </h6>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-white {% if request.resolver_match.url_name == 'tables' %}active{% endif %}"
-                   href="{% url 'tables' %}">
-                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2">
-                        <i class="fa fa-users text-dark"></i>
-                    </div>
-                    <span class="nav-link-text">Inscription</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-white {% if request.resolver_match.url_name == 'wallet' %}active{% endif %}"
-                   href="{% url 'wallet' %}">
-                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2">
-                        <i class="fa fa-graduation-cap text-dark"></i>
-                    </div>
-                    <span class="nav-link-text">Formations</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-white"
-                   href="{% url 'Modules' %}">
-                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2">
-                        <i class="fa fa-cubes text-dark"></i>
-                    </div>
-                    <span class="nav-link-text">Modules</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-white"
-                   href="{% url 'Formateur' %}">
-                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2">
-                        <i class="fa fa-chalkboard-teacher text-dark"></i>
-                    </div>
-                    <span class="nav-link-text">Formateurs</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-white"
-                   href="{% url 'Salle' %}">
-                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2">
-                        <i class="fa fa-door-open text-dark"></i>
-                    </div>
-                    <span class="nav-link-text">Salles</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-white"
-                   href="{% url 'rtl' %}">
-                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2">
-                        <i class="fa fa-user-graduate text-dark"></i>
-                    </div>
-                    <span class="nav-link-text">Élèves</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-white"
-                   href="{% url 'Presence' %}">
-                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2">
-                        <i class="fa fa-clipboard-check text-dark"></i>
-                    </div>
-                    <span class="nav-link-text">Présence</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-white"
-                   href="{% url 'Notes' %}">
-                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2">
-                        <i class="fa fa-star text-dark"></i>
-                    </div>
-                    <span class="nav-link-text">Notes</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-white"
-                   href="{% url 'Certification' %}">
-                    <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2">
-                        <i class="fa fa-certificate text-dark"></i>
-                    </div>
-                    <span class="nav-link-text">Certification</span>
-                </a>
-            </li>
-
-            {% endif %}
-
-        </ul>
-
+    <div>
+      <div style="color:#fff; font-weight:600; font-size:15px; letter-spacing:0.3px;">C.O.S.T.M</div>
+      <div style="color:rgba(255,255,255,0.35); font-size:11px; margin-top:1px;">Centre de formation</div>
     </div>
+    <i class="fa fa-times" id="iconSidenav"
+       style="margin-left:auto; color:rgba(255,255,255,0.4); cursor:pointer; font-size:14px; display:none;"></i>
+  </div>
 
-    <!-- FIXED FOOTER -->
-    <div class="sidenav-footer mt-auto p-3 border-top border-secondary">
+  <div style="height:1px; background:rgba(255,255,255,0.06); margin:0 16px;"></div>
 
-        <h6 class="text-uppercase text-xs font-weight-bolder text-white opacity-6 mb-3">
-            Compte
-        </h6>
+  <!-- ── SCROLLABLE MENU ── -->
+  <div id="sidenav-collapse-main"
+       style="flex:1 1 0; min-height:0; overflow-y:auto; overflow-x:hidden; padding:12px 10px;">
 
-        {% if not request.user.is_authenticated %}
+    <ul style="list-style:none; margin:0; padding:0;">
 
-            <a class="nav-link text-white" href="{% url 'login' %}">
-                <i class="fa fa-sign-in-alt me-2"></i>
-                Connexion
-            </a>
-
-            <a class="nav-link text-white" href="{% url 'register' %}">
-                <i class="fa fa-user-plus me-2"></i>
-                Inscription
-            </a>
-
+      <!-- Dashboard -->
+      <li>
+        {% if request.user.is_superuser %}
+        <a href="{% url 'admin:index' %}"
+           class="sidenav-link {% if request.resolver_match.url_name == 'admin:index' %}sidenav-active{% endif %}">
         {% else %}
-
-            {% if request.user.is_superuser %}
-                <a class="nav-link text-white"
-                   href="{% url 'admin:password_change' %}">
-            {% else %}
-                <a class="nav-link text-white"
-                   href="{% url 'password_change' %}">
-            {% endif %}
-                <i class="fa fa-key me-2"></i>
-                Mot de passe
-            </a>
-
-            {% if request.user.is_superuser %}
-                <a class="nav-link text-white"
-                   href="{% url 'admin:logout' %}">
-            {% else %}
-                <a class="nav-link text-white"
-                   href="{% url 'logout' %}">
-            {% endif %}
-                <i class="fa fa-sign-out-alt me-2"></i>
-                Déconnexion
-            </a>
-
+        <a href="{% url 'dashboard' %}"
+           class="sidenav-link {% if request.resolver_match.url_name == 'dashboard' %}sidenav-active{% endif %}">
         {% endif %}
+          <span class="sidenav-icon"><i class="fa fa-home"></i></span>
+          <span>Tableau de bord</span>
+        </a>
+      </li>
 
-    </div>
+      <!-- SUPERUSER APPS -->
+      {% if request.user.is_superuser %}
+        {% admin_get_menu as app_list %}
+        {% if app_list %}
+          {% for app in app_list %}
+            {% if app.has_perms and not app.pinned %}
+
+              <li style="margin-top:20px; margin-bottom:6px; padding:0 8px;">
+                <span style="font-size:10px; font-weight:600; letter-spacing:0.1em; color:rgba(255,255,255,0.25); text-transform:uppercase;">
+                  {{ app.label|slice:15 }}
+                </span>
+              </li>
+
+              {% for model in app.models %}
+                {% if model.url %}
+                <li>
+                  <a href="{{ model.url }}" class="sidenav-link">
+                    <span class="sidenav-icon"><i class="fa fa-circle" style="font-size:6px;"></i></span>
+                    <span>{{ model.label }}</span>
+                  </a>
+                </li>
+                {% endif %}
+              {% endfor %}
+
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endif %}
+
+      <!-- GESTION -->
+      {% if request.user.is_authenticated %}
+
+        <li style="margin-top:20px; margin-bottom:6px; padding:0 8px;">
+          <span style="font-size:10px; font-weight:600; letter-spacing:0.1em; color:rgba(255,255,255,0.25); text-transform:uppercase;">
+            Gestion
+          </span>
+        </li>
+
+        <li>
+          <a href="{% url 'tables' %}"
+             class="sidenav-link {% if request.resolver_match.url_name == 'tables' %}sidenav-active{% endif %}">
+            <span class="sidenav-icon"><i class="fa fa-users"></i></span>
+            <span>Inscription</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'wallet' %}"
+             class="sidenav-link {% if request.resolver_match.url_name == 'wallet' %}sidenav-active{% endif %}">
+            <span class="sidenav-icon"><i class="fa fa-graduation-cap"></i></span>
+            <span>Formations</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'Modules' %}" class="sidenav-link">
+            <span class="sidenav-icon"><i class="fa fa-cubes"></i></span>
+            <span>Modules</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'Formateur' %}" class="sidenav-link">
+            <span class="sidenav-icon"><i class="fa fa-chalkboard-teacher"></i></span>
+            <span>Formateurs</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'Salle' %}" class="sidenav-link">
+            <span class="sidenav-icon"><i class="fa fa-door-open"></i></span>
+            <span>Salles</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'rtl' %}" class="sidenav-link">
+            <span class="sidenav-icon"><i class="fa fa-user-graduate"></i></span>
+            <span>Élèves</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'Presence' %}" class="sidenav-link">
+            <span class="sidenav-icon"><i class="fa fa-clipboard-check"></i></span>
+            <span>Présence</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'Notes' %}" class="sidenav-link">
+            <span class="sidenav-icon"><i class="fa fa-star"></i></span>
+            <span>Notes</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'Certification' %}" class="sidenav-link">
+            <span class="sidenav-icon"><i class="fa fa-certificate"></i></span>
+            <span>Certification</span>
+          </a>
+        </li>
+
+      {% endif %}
+
+    </ul>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <div style="
+    flex-shrink:0;
+    padding: 12px 10px 20px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  ">
+
+    {% if request.user.is_authenticated %}
+
+      <!-- User pill -->
+      <div style="display:flex; align-items:center; gap:10px; padding:10px 10px 14px;">
+        <div style="width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,#6c63ff,#3ecfcf); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; color:#fff; flex-shrink:0;">
+          {{ request.user.username|slice:":1"|upper }}
+        </div>
+        <div style="overflow:hidden;">
+          <div style="color:#fff; font-size:13px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+            {{ request.user.username }}
+          </div>
+          <div style="color:rgba(255,255,255,0.35); font-size:11px;">
+            {% if request.user.is_superuser %}Administrateur{% else %}Utilisateur{% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div style="height:1px; background:rgba(255,255,255,0.06); margin:0 8px 10px;"></div>
+
+    {% endif %}
+
+    <ul style="list-style:none; margin:0; padding:0;">
+
+      {% if not request.user.is_authenticated %}
+
+        <li>
+          <a href="{% url 'login' %}" class="sidenav-link">
+            <span class="sidenav-icon"><i class="fa fa-sign-in-alt"></i></span>
+            <span>Connexion</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'register' %}" class="sidenav-link">
+            <span class="sidenav-icon"><i class="fa fa-user-plus"></i></span>
+            <span>Inscription</span>
+          </a>
+        </li>
+
+      {% else %}
+
+        {% if request.user.is_superuser %}
+          <li>
+            <a href="{% url 'admin:password_change' %}" class="sidenav-link">
+        {% else %}
+          <li>
+            <a href="{% url 'password_change' %}" class="sidenav-link">
+        {% endif %}
+              <span class="sidenav-icon"><i class="fa fa-key"></i></span>
+              <span>Mot de passe</span>
+            </a>
+          </li>
+
+        {% if request.user.is_superuser %}
+          <li>
+            <form method="post" action="{% url 'admin:logout' %}" style="margin:0;">
+                {% csrf_token %}
+                <button type="submit" class="sidenav-link sidenav-danger"
+                        style="width:100%; border:none; background:none; cursor:pointer; text-align:left;">
+                    <span class="sidenav-icon"><i class="fa fa-sign-out-alt"></i></span>
+                    <span>Déconnexion</span>
+                </button>
+            </form>
+        {% else %}
+          <li>
+            <form method="post" action="{% url 'logout' %}" style="margin:0;">
+                {% csrf_token %}
+                <button type="submit" class="sidenav-link sidenav-danger"
+                        style="width:100%; border:none; background:none; cursor:pointer; text-align:left;">
+                    <span class="sidenav-icon"><i class="fa fa-sign-out-alt"></i></span>
+                    <span>Déconnexion</span>
+                </button>
+            </form>
+        {% endif %}
+              
+      {% endif %}
+
+    </ul>
+  </div>
 
 </aside>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap');
+
+  #sidenav-main * {
+    font-family: 'DM Sans', sans-serif;
+    box-sizing: border-box;
+  }
+
+  /* Scrollbar */
+  #sidenav-collapse-main::-webkit-scrollbar { width: 3px; }
+  #sidenav-collapse-main::-webkit-scrollbar-track { background: transparent; }
+  #sidenav-collapse-main::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.12);
+    border-radius: 3px;
+  }
+
+  /* Nav links */
+  .sidenav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 400;
+    transition: background 0.15s, color 0.15s;
+    margin-bottom: 2px;
+  }
+
+  .sidenav-link:hover {
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+  }
+
+  .sidenav-link.sidenav-active {
+    background: rgba(108, 99, 255, 0.18);
+    color: #a99fff;
+    font-weight: 500;
+  }
+
+  .sidenav-link.sidenav-active .sidenav-icon {
+    color: #8b83ff;
+  }
+
+  .sidenav-link.sidenav-danger:hover {
+    background: rgba(255, 80, 80, 0.1);
+    color: #ff7070;
+  }
+
+  .sidenav-link.sidenav-danger:hover .sidenav-icon {
+    color: #ff7070;
+  }
+
+  /* Icons */
+  .sidenav-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    background: rgba(255,255,255,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+    color: rgba(255,255,255,0.4);
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .sidenav-link:hover .sidenav-icon {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.8);
+  }
+
+  .sidenav-link.sidenav-active .sidenav-icon {
+    background: rgba(108, 99, 255, 0.25);
+  }
+
+  /* Responsive */
+  @media (max-width: 1199.98px) {
+    #sidenav-main {
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+      z-index: 1050;
+    }
+    #sidenav-main.show {
+      transform: translateX(0);
+    }
+    #iconSidenav {
+      display: block !important;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    #sidenav-main {
+      transform: translateX(0) !important;
+    }
+  }
+</style>

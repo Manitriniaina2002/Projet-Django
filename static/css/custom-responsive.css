@@ -32,10 +32,11 @@ h1, h2, h3, h4, h5, h6 {
 .sidenav {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
+  min-height: 0;
 }
 
 .sidenav .sidenav-header {
@@ -54,7 +55,6 @@ h1, h2, h3, h4, h5, h6 {
   overflow-x: hidden;
   padding-right: 0.5rem;
   min-height: 0;
-  max-height: calc(100vh - 80px); /* 80px = approx header height */
 }
 
 .sidenav .navbar-collapse::-webkit-scrollbar {
