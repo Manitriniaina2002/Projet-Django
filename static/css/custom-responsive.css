@@ -1,0 +1,438 @@
+/* Custom Responsive CSS for C.O.S.T.M */
+/* Modern Design & Full Responsiveness */
+
+/* ===== Base Styles ===== */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ===== Modern Typography ===== */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ===== Modern Sidebar Styling ===== */
+.bg-gradient-dark {
+  background: linear-gradient(135deg, #1a1f36 0%, #2d3748 100%) !important;
+}
+
+.sidenav {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidenav .sidenav-header {
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: linear-gradient(135deg, #1a1f36 0%, #2d3748 100%);
+}
+
+.sidenav .navbar-collapse {
+  display: flex !important;
+  flex-direction: column;
+  flex: 1 1 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 0.5rem;
+  min-height: 0;
+  max-height: calc(100vh - 80px); /* 80px = approx header height */
+}
+
+.sidenav .navbar-collapse::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidenav .navbar-collapse::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidenav .navbar-collapse::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+.sidenav .sidenav-footer {
+  flex-shrink: 0;
+  margin-top: auto;
+  background: linear-gradient(135deg, #1a1f36 0%, #2d3748 100%);
+  padding-top: 1rem;
+}
+
+.sidenav .nav-link {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin: 0.25rem 0.75rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.sidenav .nav-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(4px);
+}
+
+.sidenav .nav-link.active {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.sidenav .icon-shape {
+  width: 36px;
+  height: 36px;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.sidenav .nav-link:hover .icon-shape {
+  transform: scale(1.1);
+}
+
+.sidenav h6 {
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  margin: 1rem 0 0.5rem 0;
+  padding: 0 1rem;
+}
+
+.horizontal.light {
+  background: rgba(255, 255, 255, 0.15);
+  height: 1px;
+  margin: 1rem 0;
+}
+
+/* ===== Sidebar Footer Card ===== */
+.card-background {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ===== Responsive Sidebar ===== */
+@media (max-width: 1199.98px) {
+  .sidenav {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 1050;
+  }
+  
+  .sidenav.show {
+    transform: translateX(0);
+  }
+  
+  .sidenav-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+  }
+  
+  .sidenav-overlay.show {
+    display: block;
+  }
+  
+  #iconSidenavMobile {
+    opacity: 1 !important;
+    color: white !important;
+  }
+  
+  .sidenav-footer .card {
+    display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .sidenav {
+    transform: translateX(0);
+  }
+}
+
+/* ===== Responsive Navigation ===== */
+.navbar-main {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+@media (max-width: 991.98px) {
+  .navbar-main {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  /* Scoped to top navbar only — does NOT affect .sidenav .navbar-collapse */
+  .navbar-main .navbar-collapse {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* ===== Responsive Main Content ===== */
+.main-content {
+  transition: margin-left 0.3s ease-in-out;
+}
+
+@media (max-width: 1199.98px) {
+  .main-content {
+    margin-left: 0 !important;
+  }
+}
+
+/* ===== Responsive Cards ===== */
+.card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+@media (max-width: 575.98px) {
+  .card {
+    border-radius: 0.75rem;
+  }
+}
+
+/* ===== Responsive Tables ===== */
+.table-responsive {
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+@media (max-width: 767.98px) {
+  .table-responsive {
+    font-size: 0.875rem;
+  }
+  
+  .table th,
+  .table td {
+    padding: 0.5rem;
+  }
+}
+
+/* ===== Responsive Forms ===== */
+.form-control,
+.form-select {
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+@media (max-width: 575.98px) {
+  .form-control,
+  .form-select {
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* ===== Responsive Buttons ===== */
+.btn {
+  border-radius: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 575.98px) {
+  .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+  }
+}
+
+/* ===== Responsive Dropdowns ===== */
+.dropdown-menu {
+  border: none;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem;
+}
+
+@media (max-width: 575.98px) {
+  .dropdown-menu {
+    min-width: 200px;
+  }
+}
+
+/* ===== Responsive Footer ===== */
+.footer {
+  padding: 1.5rem 0;
+  background: transparent;
+}
+
+@media (max-width: 575.98px) {
+  .footer {
+    padding: 1rem 0;
+  }
+  
+  .copyright {
+    font-size: 0.75rem;
+  }
+}
+
+/* ===== Modern Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ===== Mobile Optimizations ===== */
+@media (max-width: 767.98px) {
+  .container-fluid {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .py-4 {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+  
+  .gap-3 {
+    gap: 0.75rem !important;
+  }
+  
+  .mb-4 {
+    margin-bottom: 1rem !important;
+  }
+  
+  .mt-4 {
+    margin-top: 1rem !important;
+  }
+}
+
+/* ===== Touch-friendly targets ===== */
+@media (max-width: 767.98px) {
+  .nav-link {
+    padding: 0.75rem 1rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .btn,
+  .dropdown-item {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ===== Smooth transitions ===== */
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== Loading States ===== */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ===== Focus states for accessibility ===== */
+:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+/* ===== Print styles ===== */
+@media print {
+  .sidenav,
+  .navbar-main,
+  .footer {
+    display: none !important;
+  }
+  
+  .main-content {
+    margin: 0 !important;
+  }
+}
+
+/* ===== Dark mode support ===== */
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: #1e293b;
+    color: #f1f5f9;
+  }
+  
+  .form-control,
+  .form-select {
+    background: #334155;
+    border-color: #475569;
+    color: #f1f5f9;
+  }
+}
+
+/* ===== Performance optimizations ===== */
+.will-change-transform {
+  will-change: transform;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}

@@ -91,8 +91,6 @@ class Note(models.Model):
 
 
 
-
-
 class Participation(models.Model):
     id_eleve = models.IntegerField(db_column='Id_Eleve', primary_key=True)  # Field name made lowercase. The composite primary key (Id_Eleve, Photo, Id_Formation) found, that is not supported. The first column is selected.
     photo = models.CharField(db_column='Photo', max_length=50)  # Field name made lowercase.
